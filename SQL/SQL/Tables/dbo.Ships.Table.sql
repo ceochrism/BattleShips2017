@@ -1,6 +1,6 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  Table [dbo].[Ships]    Script Date: 6/23/2017 1:35:48 PM ******/
+/****** Object:  Table [dbo].[Ships]    Script Date: 6/23/2017 3:05:52 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[Ships](
 	[ShipStatus] [varchar](20) NOT NULL,
 	[LocationX] [varchar](50) NOT NULL,
 	[LocationY] [varchar](50) NOT NULL,
+	[UserID] [int] NOT NULL,
  CONSTRAINT [PK_Ships] PRIMARY KEY CLUSTERED 
 (
 	[BoardID] ASC
