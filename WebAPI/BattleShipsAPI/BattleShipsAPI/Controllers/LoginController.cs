@@ -61,7 +61,7 @@ namespace BattleShipsAPI.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public string Login([FromBody] LoginCredentials credentials)
+        public UserInfo Login([FromBody] LoginCredentials credentials)
         {
             using (SqlConnection conn = new SqlConnection(connString))
 
@@ -84,7 +84,7 @@ namespace BattleShipsAPI.Controllers
                     return null;
                 }
 
-                return table.Rows[0][0].ToString();
+                return new UserInfo(credentials.Username,Guid.Parse(table.Rows[0][0].ToString()));
             }
         }
     }
