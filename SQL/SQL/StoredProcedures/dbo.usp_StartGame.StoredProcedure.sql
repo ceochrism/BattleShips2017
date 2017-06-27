@@ -1,10 +1,11 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_StartGame]    Script Date: 6/26/2017 3:06:56 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_StartGame]    Script Date: 6/27/2017 2:17:39 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 CREATE Procedure [dbo].[usp_StartGame]
@@ -15,7 +16,7 @@ AS
 	Begin
 		DECLARE @TempID as int;
 		SET @TEMPID = (SELECT UserID From Accounts Where Username = Username);
-		IF NOT EXISTS(Select GUID From Rooms Where JoinerID = NULL)
+		IF NOT EXISTS(Select GUID From Rooms Where JoinerID = NULL AND @TempID != HostID)
 		BEGIN
 			INSERT INTO Rooms (GUID, HostID, CreationDate) Values (NEWID(), @TempID, GETDATE());
 			RETURN 1;
@@ -49,6 +50,7 @@ AS
 	End
 
 	Return 0;
+
 
 
 GO

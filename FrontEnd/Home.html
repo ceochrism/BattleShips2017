@@ -3,16 +3,33 @@
 <head>
     <title>BattleShips</title>
     <style>
-    .error{
-        color:red;
-        border-color:red;
-        border-width:2px;
-    }
+        .error {
+            color: red;
+            border-color: red;
+            border-width: 2px;
+        }
     </style>
+    <script src="login.js">
+
+    </script>
 </head>
 
 <body>
-    
+    <form>
+        <center id="usernameBox">
+            Username: <input type="text" data-label="usernameBox" oninput="typing()" class="validate advancedSearchTextbox"
+                id="usernameTextBox" width="200px" />
+        </center>
+        </p>
+        <p>
+            <center id="passwordBox">
+                Password: <input type="password" data-label="passwordBox" oninput="typing()" class="validate advancedSearchTextbox"
+                    id="passwordTextBox" width="200px" />
+            </center>
+            <center>
+                <input type="button" onclick="logIn()" class="buttons1" id="logInButton" value="Log In" width=50px/>
+            </center>
+    </form>
 </body>
 
 </html>

@@ -28,3 +28,28 @@
                 }
             }
         }
+
+        function logIn() {
+
+        if (validateTextBox()) {
+            var user = {
+                "username": usernameTextBox.value,
+                "password": passwordTextBox.value
+            }
+            var request = new XMLHttpRequest();
+            request.open("Post", "http://localhost:58133//api/Login/Login", true);
+            request.setRequestHeader("Content-Type", "application/json");
+            request.onreadystatechange = () => {
+                if (request.readyState == 4 && request.status >= 200 && request.status < 300) {
+                    let result = JSON.parse(request.responseText)
+                    if (result == null) {
+                        alert("Incorrect credentials have been entered.")
+                    }
+                    else {
+                        alert("You have successfully logged in.");
+                    }
+                }
+            };
+            request.send(JSON.stringify(user));
+        }
+    }

@@ -1,6 +1,6 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  Table [dbo].[Boards]    Script Date: 6/26/2017 3:06:56 PM ******/
+/****** Object:  Table [dbo].[Boards]    Script Date: 6/27/2017 2:17:39 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14,6 +14,10 @@ CREATE TABLE [dbo].[Boards](
 	[HostShipsPlaced] [int] NOT NULL,
 	[JoinerShipsPlaced] [int] NOT NULL,
 	[Status] [varchar](50) NOT NULL,
+	[HostHitAmount] [int] NOT NULL,
+	[JoinerHitAmount] [int] NOT NULL,
+	[isGameFinished] [bit] NOT NULL,
+	[WinnerName] [varchar](50) NOT NULL,
  CONSTRAINT [PK_Boards] PRIMARY KEY CLUSTERED 
 (
 	[BoardID] ASC
@@ -26,6 +30,12 @@ GO
 ALTER TABLE [dbo].[Boards] ADD  CONSTRAINT [DF_Boards_JoinerShipsPlaced]  DEFAULT ((0)) FOR [JoinerShipsPlaced]
 GO
 ALTER TABLE [dbo].[Boards] ADD  CONSTRAINT [DF_Boards_Status]  DEFAULT ('placing') FOR [Status]
+GO
+ALTER TABLE [dbo].[Boards] ADD  CONSTRAINT [DF_Boards_HostHitAmount]  DEFAULT ((0)) FOR [HostHitAmount]
+GO
+ALTER TABLE [dbo].[Boards] ADD  CONSTRAINT [DF_Boards_JoinerHitAmount]  DEFAULT ((0)) FOR [JoinerHitAmount]
+GO
+ALTER TABLE [dbo].[Boards] ADD  CONSTRAINT [DF_Boards_isGameFinished]  DEFAULT ((0)) FOR [isGameFinished]
 GO
 ALTER TABLE [dbo].[Boards]  WITH CHECK ADD  CONSTRAINT [FK_Boards_Games] FOREIGN KEY([GameID])
 REFERENCES [dbo].[Games] ([GameID])

@@ -9,10 +9,12 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace BattleShipsAPI.Controllers
 {
     [RoutePrefix("api/Login")]
+    [EnableCors("*","*","*")]
     public class LoginController : ApiController
     {
         //encryption magic that i don't understand but it works.
@@ -77,12 +79,12 @@ namespace BattleShipsAPI.Controllers
 
                 conn.Close();
 
-                if (int.Parse(table.Rows[0][0].ToString()) == 1)
+                if (int.Parse(table.Rows[0][0].ToString()) == 0)
                 {
-                    return "Log in succesful";
+                    return null;
                 }
 
-                return "Log in failed";
+                return table.Rows[0][0].ToString();
             }
         }
     }
