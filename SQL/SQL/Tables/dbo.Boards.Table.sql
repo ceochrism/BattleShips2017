@@ -1,12 +1,12 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  Table [dbo].[Boards]    Script Date: 6/27/2017 2:17:39 PM ******/
+/****** Object:  Table [dbo].[Boards]    Script Date: 6/28/2017 2:59:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Boards](
-	[BoardID] [int] NOT NULL,
+	[BoardID] [int] IDENTITY(1,1) NOT NULL,
 	[GameID] [int] NOT NULL,
 	[CurrentTurn] [int] NOT NULL,
 	[HostID] [int] NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE [dbo].[Boards](
 	[HostHitAmount] [int] NOT NULL,
 	[JoinerHitAmount] [int] NOT NULL,
 	[isGameFinished] [bit] NOT NULL,
-	[WinnerName] [varchar](50) NOT NULL,
+	[WinnerName] [varchar](50) NULL,
  CONSTRAINT [PK_Boards] PRIMARY KEY CLUSTERED 
 (
 	[BoardID] ASC

@@ -1,10 +1,11 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_SignUp]    Script Date: 6/27/2017 2:17:39 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_SignUp]    Script Date: 6/28/2017 2:59:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -13,16 +14,19 @@ CREATE PROCEDURE [dbo].[usp_SignUp]
 	@Password varchar(64),
 	@Email    varchar(50)
 AS
+DECLARE @R as varchar(100);
+SET @R = 0;
 	IF NOT EXISTS(Select * From Accounts Where Username = @UserName)
 	BEGIN
 		INSERT INTO Accounts (GUID, Username, Password, Email)
 		Values (NEWID(), @UserName, @Password, @Email);
-		Return 1;
+		SET @R = 1;
 	END
 	ELSE
 	BEGIN
-		Return 0;
+		SET @R = 0;
 	END
 
+	SELECT @R;
 
 GO

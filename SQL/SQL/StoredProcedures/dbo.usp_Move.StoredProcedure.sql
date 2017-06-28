@@ -1,10 +1,13 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_Move]    Script Date: 6/27/2017 2:17:39 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_Move]    Script Date: 6/28/2017 2:59:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+
+
 
 
 
@@ -15,8 +18,11 @@ CREATE PROCEDURE [dbo].[usp_Move]
 	@X int,
 	@Y int, 
 	@GameID int,
-	@state varchar(50)
+	@state uniqueidentifier
 AS
+	DECLARE @R as varchar(100);
+	SET @R = 'Session Expired'
+
 	DECLARE @UserID as int;
 	SET @UserID = (Select UserID From Accounts Where Username = @Username);
 
@@ -41,6 +47,7 @@ AS
 
 	IF ((Select state From Accounts where Username = Username)= @state)
 	Begin
+	SET @R = 'It is not your turn in this Game';
 	IF((SELECT isGameFinished From Boards Where BoardID = @BoardID) = 0 AND @JoinerShipsPlaced = 4 AND @HostShipsPlaced = 4)
 	BEGIN
 		IF(@HostID = @UserID AND @UserID = @CurrentTurn)
@@ -50,17 +57,17 @@ AS
 				INSERT INTO Moves (BoardID, UserID, LocationX, LocationY, Result) VALUES (@BoardID, @UserID, @X, @Y, 'Hit');
 				UPDATE Boards SET HostHitAmount = (HostHitAmount + 1) , CurrentTurn = @JoinerID Where BoardID = @BoardID;
 				Update Cells SET AlreadyHit = 1 Where @BoardID = BoardID AND @X = X AND @Y = Y AND UserID = @JoinerID;
-				RETURN 'You have hit the ' + (Select ShipLength From Cells Where @BoardID = BoardID AND UserID = @JoinerID) + ' length ship!'
+				SET @R = 'You have hit the ' + (Select ShipLength From Cells Where @BoardID = BoardID AND UserID = @JoinerID) + ' length ship!'
 			END
 			ELSE 
 			BEGIN
 				If EXISTS (SELECT * From Moves Where @BoardID = BoardID AND UserID = @UserID AND @X = LocationX AND @Y = LocationY)
 				Begin
-					Return '0'
+					SET @R = '0'
 				End
 				INSERT INTO Moves (BoardID, UserID, LocationX, LocationY, Result) VALUES (@BoardID, @UserID, @X, @Y, 'Miss');
 				UPDATE Boards SET CurrentTurn = @JoinerID Where BoardID = @BoardID;
-				 RETURN 'Miss'; 
+				 SET @R = 'Miss'; 
 			END
 		END
 
@@ -71,22 +78,24 @@ AS
 				INSERT INTO Moves (BoardID, UserID, LocationX, LocationY, Result) VALUES (@BoardID, @UserID, @X, @Y, 'Hit');
 				UPDATE Boards SET JoinerHitAmount = (JoinerHitAmount + 1) , CurrentTurn = @HostID Where BoardID = @BoardID;				
 				Update Cells SET AlreadyHit = 1 Where @BoardID = BoardID AND @X = X AND @Y = Y AND UserID = @HostID;
-				RETURN 'You have hit the ' + (Select ShipLength From Cells Where @BoardID = BoardID AND UserID = @HostID) + ' length ship!'
+				SET @R = 'You have hit the ' + (Select ShipLength From Cells Where @BoardID = BoardID AND UserID = @HostID) + ' length ship!'
 			END
 			ELSE 
 			BEGIN
 				If EXISTS (SELECT * From Moves Where @BoardID = BoardID AND UserID = @UserID AND @X = LocationX AND @Y = LocationY)
 				Begin
-					Return '0'
+					SET @R =  '0'
 				End
 				INSERT INTO Moves (BoardID, UserID, LocationX, LocationY, Result) VALUES (@BoardID, @UserID, @X, @Y, 'Miss');
 				UPDATE Boards SET CurrentTurn = @HostID Where BoardID = @BoardID;
-				 RETURN 'Miss'; 
+				 SET @R = 'Miss'; 
 			END
 		END
-		RETURN '0';
 	END
 	END
+	SELECT @R;
+
+
 
 
 

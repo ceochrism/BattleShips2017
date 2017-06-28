@@ -1,12 +1,12 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  Table [dbo].[Moves]    Script Date: 6/27/2017 2:17:39 PM ******/
+/****** Object:  Table [dbo].[Moves]    Script Date: 6/28/2017 2:59:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Moves](
-	[MoveID] [int] NOT NULL,
+	[MoveID] [int] IDENTITY(1,1) NOT NULL,
 	[BoardID] [int] NOT NULL,
 	[UserID] [int] NOT NULL,
 	[LocationX] [int] NOT NULL,

@@ -1,12 +1,12 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  Table [dbo].[Games]    Script Date: 6/27/2017 2:17:39 PM ******/
+/****** Object:  Table [dbo].[Games]    Script Date: 6/28/2017 2:59:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Games](
-	[GameID] [int] NOT NULL,
+	[GameID] [int] IDENTITY(1,1) NOT NULL,
 	[HostID] [int] NOT NULL,
 	[JoinerID] [int] NOT NULL,
 	[Status] [varchar](50) NOT NULL,
@@ -16,14 +16,4 @@ CREATE TABLE [dbo].[Games](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
-ALTER TABLE [dbo].[Games]  WITH CHECK ADD  CONSTRAINT [FK_Games_Rooms] FOREIGN KEY([HostID])
-REFERENCES [dbo].[Rooms] ([RoomID])
-GO
-ALTER TABLE [dbo].[Games] CHECK CONSTRAINT [FK_Games_Rooms]
-GO
-ALTER TABLE [dbo].[Games]  WITH CHECK ADD  CONSTRAINT [FK_Games_Rooms1] FOREIGN KEY([JoinerID])
-REFERENCES [dbo].[Rooms] ([RoomID])
-GO
-ALTER TABLE [dbo].[Games] CHECK CONSTRAINT [FK_Games_Rooms1]
 GO

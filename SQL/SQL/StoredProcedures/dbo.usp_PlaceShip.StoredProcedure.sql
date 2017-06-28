@@ -1,10 +1,12 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_PlaceShip]    Script Date: 6/27/2017 2:17:39 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_PlaceShip]    Script Date: 6/28/2017 2:59:41 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+
 
 
 
@@ -15,7 +17,7 @@ CREATE Procedure [dbo].[usp_PlaceShip]
 	@StartY int,
 	@Orientation int,
 	@ShipLength int,
-	@state varchar(50)
+	@state uniqueidentifier
 As
 	DECLARE @UserID as int;
 	SET @UserID = (Select UserID From Accounts Where Username = @Username);
@@ -342,6 +344,8 @@ As
 		END
 	END
 	RETURN 0;
+
+
 
 
 

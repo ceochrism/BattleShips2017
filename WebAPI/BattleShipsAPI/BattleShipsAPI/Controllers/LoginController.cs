@@ -13,8 +13,11 @@ using System.Web.Http.Cors;
 
 namespace BattleShipsAPI.Controllers
 {
+    /// <summary>
+    /// User-related functions
+    /// </summary>
     [RoutePrefix("api/Login")]
-    [EnableCors("*","*","*")]
+    [EnableCors("*", "*", "*")]
     public class LoginController : ApiController
     {
         //encryption magic that i don't understand but it works.
@@ -29,9 +32,15 @@ namespace BattleShipsAPI.Controllers
 
         private static string connString = System.Configuration.ConfigurationManager.ConnectionStrings["gmrskybase"].ConnectionString;
 
+        /// <summary>
+        /// Registers a new user
+        /// </summary>
+        /// <param name="credentials">The user's username and password</param>
+        /// <returns>if success</returns>
+
         [HttpPost]
         [Route("SignUp")]
-        public string SignUp([FromBody] SignUpCredentials credentials)
+        public SignUpStatus SignUp([FromBody] SignUpCredentials credentials)
         {
             using (SqlConnection conn = new SqlConnection(connString))
 
@@ -49,16 +58,21 @@ namespace BattleShipsAPI.Controllers
                 adapter.Fill(table);
 
                 conn.Close();
-                
-                if(int.Parse(table.Rows[0][0].ToString()) == 1)
+
+                if (int.Parse(table.Rows[0][0].ToString()) == 1)
                 {
-                    return "Account succesfully created";
+                    return new SignUpStatus("Account succesfully created");
                 }
 
-                return "Account creation failed";
+                return new SignUpStatus(null);
             }
         }
 
+        /// <summary>
+        /// Logins in a user
+        /// </summary>
+        /// <param name="credentials">Username and Password</param>
+        /// <returns>if succesful</returns>
         [HttpPost]
         [Route("Login")]
         public UserInfo Login([FromBody] LoginCredentials credentials)
@@ -79,12 +93,15 @@ namespace BattleShipsAPI.Controllers
 
                 conn.Close();
 
-                if (int.Parse(table.Rows[0][0].ToString()) == 0)
+                if (table.Rows.Count>0)
                 {
-                    return null;
+                    return new UserInfo(credentials.Username, Guid.Parse(table.Rows[0][1].ToString()));
+                }
+                else
+                {
+                    return new UserInfo(credentials.Username, null);
                 }
 
-                return new UserInfo(credentials.Username,Guid.Parse(table.Rows[0][0].ToString()));
             }
         }
     }
