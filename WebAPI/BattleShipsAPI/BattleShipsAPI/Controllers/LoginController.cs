@@ -104,5 +104,37 @@ namespace BattleShipsAPI.Controllers
 
             }
         }
+
+        [HttpPost]
+        [Route("CheckSession")]
+        public string CheckSession([FromBody] CheckSessionCred credentials)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+
+            using (SqlCommand command = new SqlCommand("usp_CheckSession", conn))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Username", credentials.Username);
+                command.Parameters.AddWithValue("@status", credentials.SessionID);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable table = new DataTable();
+
+                conn.Open();
+
+                adapter.Fill(table);
+
+                conn.Close();
+
+                if (table.Rows.Count > 0)
+                {
+                    return "Correct";
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+        }
     }
 }

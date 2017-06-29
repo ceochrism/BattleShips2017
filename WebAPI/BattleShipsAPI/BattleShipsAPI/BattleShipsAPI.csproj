@@ -141,8 +141,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CheckSessionCred.cs" />
     <Compile Include="Models\GetGameIDs.cs" />
+    <Compile Include="Models\GetGameStatusCred.cs" />
     <Compile Include="Models\LoginCredentials.cs" />
+    <Compile Include="Models\MoveCredentials.cs" />
+    <Compile Include="Models\PlaceShipsCredentials.cs" />
     <Compile Include="Models\SignUpCredentials.cs" />
     <Compile Include="Models\SignUpStatus.cs" />
     <Compile Include="Models\StartGameCredentials.cs" />

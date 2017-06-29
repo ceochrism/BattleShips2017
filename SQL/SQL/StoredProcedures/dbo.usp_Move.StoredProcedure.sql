@@ -1,10 +1,11 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_Move]    Script Date: 6/28/2017 2:59:41 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_Move]    Script Date: 6/29/2017 3:21:24 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -45,7 +46,7 @@ AS
 	SET @JoinerShipsPlaced = (Select HostShipsPlaced From Boards where @BoardID = BoardID);
 
 
-	IF ((Select state From Accounts where Username = Username)= @state)
+	IF ((Select state From Accounts where @Username = Username)= @state)
 	Begin
 	SET @R = 'It is not your turn in this Game';
 	IF((SELECT isGameFinished From Boards Where BoardID = @BoardID) = 0 AND @JoinerShipsPlaced = 4 AND @HostShipsPlaced = 4)
@@ -94,6 +95,7 @@ AS
 	END
 	END
 	SELECT @R;
+
 
 
 

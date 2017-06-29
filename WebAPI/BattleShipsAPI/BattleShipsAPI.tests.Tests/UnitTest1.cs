@@ -20,7 +20,7 @@ namespace BattleShipsAPI.Tests
             HttpClient client = new HttpClient();
             LoginCredentials credentials = new LoginCredentials
             {
-                Username = "test",
+                Username = "test4",
                 Password = "test"
             };
             var result = await client.PostAsJsonAsync($"http://localhost:58133/api/Login/Login", credentials);
@@ -72,6 +72,76 @@ namespace BattleShipsAPI.Tests
             string response = await result.Content.ReadAsStringAsync();
             string[] profile = JsonConvert.DeserializeObject<string[]>(response);
             Assert.IsNotNull(profile, "Game Creation Failed");
+        }
+
+        [TestMethod]
+        public async Task PlaceShipOverHttp()
+        {
+            HttpClient client = new HttpClient();
+            PlaceShipsCredentials credentials = new PlaceShipsCredentials
+            {
+                Username = "test",
+                GameID = 19,
+                X = 5,
+                Y = 3,
+                ShipLength = 3,
+                Orientation = 1,
+                SessionID = Guid.Parse("67A3B179-D4AB-4E34-A63F-D37101C4B324")
+            };
+            var result = await client.PostAsJsonAsync($"http://localhost:58133/api/Game/PlaceShips", credentials);
+            string response = await result.Content.ReadAsStringAsync();
+            string profile = JsonConvert.DeserializeObject<string>(response);
+            Assert.IsNotNull(profile, "Placing Ship Failed");
+        }
+
+        [TestMethod]
+        public async Task GetGameStatusOverHttp()
+        {
+            HttpClient client = new HttpClient();
+            GetGameStatusCred credentials = new GetGameStatusCred
+            {
+                
+                GameID = 19
+            };
+            var result = await client.PostAsJsonAsync($"http://localhost:58133/api/Game/GetGameStatus", credentials);
+            string response = await result.Content.ReadAsStringAsync();
+            string[] profile = JsonConvert.DeserializeObject<string[]>(response);
+            Assert.IsNotNull(profile, "Getting Game Status Failed");
+        }
+
+        [TestMethod]
+        public async Task MoveOverHttp()
+        {
+            HttpClient client = new HttpClient();
+            MoveCredentials credentials = new MoveCredentials
+            {
+                GameID = 19,
+                X = 5,
+                Y = 3,
+                Username = "test2",
+                SessionID = Guid.Parse("2A79D4EB-AE2B-4466-AEF0-DC0193E9CD5E")
+
+            };
+            var result = await client.PostAsJsonAsync($"http://localhost:58133/api/Game/Move", credentials);
+            string response = await result.Content.ReadAsStringAsync();
+            string profile = JsonConvert.DeserializeObject<string>(response);
+            Assert.IsNotNull(profile, "Getting Game Status Failed");
+        }
+
+        [TestMethod]
+        public async Task CheckSessionOverHttp()
+        {
+            HttpClient client = new HttpClient();
+            CheckSessionCred credentials = new CheckSessionCred
+            {
+                Username = "test2",
+                SessionID = Guid.Parse("2A79D4EB-AE2B-4466-AEF0-DC0193E9CD5E")
+
+            };
+            var result = await client.PostAsJsonAsync($"http://localhost:58133/api/Login/CheckSession", credentials);
+            string response = await result.Content.ReadAsStringAsync();
+            string profile = JsonConvert.DeserializeObject<string>(response);
+            Assert.IsNotNull(profile, "Session Expired");
         }
     }
 }

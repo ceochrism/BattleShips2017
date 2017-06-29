@@ -1,10 +1,12 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_PlaceShip]    Script Date: 6/28/2017 2:59:41 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_PlaceShip]    Script Date: 6/29/2017 3:21:24 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+
 
 
 
@@ -19,6 +21,9 @@ CREATE Procedure [dbo].[usp_PlaceShip]
 	@ShipLength int,
 	@state uniqueidentifier
 As
+	DECLARE @R as int;
+	SET @R = 0;
+	
 	DECLARE @UserID as int;
 	SET @UserID = (Select UserID From Accounts Where Username = @Username);
 
@@ -29,23 +34,35 @@ As
 	SET @HostID = (Select HostID From Boards Where GameID = @GameID);
 
 	DECLARE @JoinerID as int;
-	SET @HostID = (Select JoinerID From Boards Where GameID = @GameID);
+	SET @JoinerID = (Select JoinerID From Boards Where GameID = @GameID);
 
-	IF ((Select state From Accounts where Username = Username)= @state)
+	DECLARE @HostShipsPlaced AS int;
+	SET @HostShipsPlaced = (Select HostShipsPlaced From Boards Where BoardID = @BoardID);
+
+	DECLARE @JoinerShipsPlaced AS int;
+	SET @JoinerShipsPlaced = (Select JoinerShipsPlaced From Boards Where BoardID = @BoardID);
+
+	IF ((Select state From Accounts where Username = @Username)= @state)
 	Begin
-	IF EXISTS(SELECT * FROM Ships Where @UserID = UserID AND ShipLength = @ShipLength)
+	
+	IF EXISTS(SELECT * FROM Ships Where @UserID = UserID AND ShipLength = @ShipLength AND BoardID = @BoardID)
 	BEGIN
-		IF(@HostID = @UserID AND (Select HostShipsPlaced From Boards Where BoardID = @BoardID) < 4)
+
+		IF(@HostID = @UserID AND @HostShipsPlaced < 4)
 		BEGIN
+		
+		
 		IF (@Orientation = 1 AND @StartY < 10 AND @StartY > 0 AND @StartX > 0 AND (@StartX + @ShipLength) < 10)
 		BEGIN
+
 			DECLARE @Counter As int;
 			Set @Counter = 0;
 			WHILE (@Counter < @ShipLength)
 			BEGIN
 				IF EXISTS (SELECT CellID From Cells WHERE Y = @StartY AND X = (@StartX + @Counter) AND UserID = @UserID AND BoardID = @BoardID)
 				BEGIN
-					Return 0;
+					SET @R=0;
+					RETURN;
 				END
 				SET @Counter = @Counter + 1;
 			End
@@ -62,7 +79,6 @@ As
 			StartY = @StartY , 
 			Orientation = @Orientation 
 			Where ShipLength = @ShipLength AND BoardID = @BoardID AND UserID = @UserID;
-
 			IF(@UserID = (SELECT HostID From Boards Where BoardID = @BoardID))
 			Begin
 				UPDATE Boards SET HostShipsPlaced = HostShipsPlaced + 1 Where BoardID = @BoardID;
@@ -71,7 +87,9 @@ As
 			BEGIN
 				UPDATE Boards SET JoinerShipsPlaced = JoinerShipsPlaced + 1 Where BoardID = @BoardID;
 			END
-			RETURN 1;
+			SET @R = 1;
+			SELECT @R;
+			RETURN;
 		END
 
 
@@ -83,7 +101,8 @@ As
 			BEGIN
 				IF EXISTS (SELECT CellID From Cells WHERE Y = @StartY AND X = (@StartX - @Counter) AND UserID = @UserID AND BoardID = @BoardID)
 				BEGIN
-					Return 0;
+					SET @R=0;
+					RETURN;
 				END
 				SET @Counter = @Counter + 1;
 			End
@@ -109,7 +128,9 @@ As
 			BEGIN
 				UPDATE Boards SET JoinerShipsPlaced = JoinerShipsPlaced + 1 Where BoardID = @BoardID;
 			END
-			RETURN 1;
+			SET @R = 1;
+			SELECT @R;
+			RETURN;
 		END
 
 
@@ -120,7 +141,8 @@ As
 			BEGIN
 				IF EXISTS (SELECT CellID From Cells WHERE X = @StartX AND Y = (@StartY - @Counter) AND UserID = @UserID AND BoardID = @BoardID)
 				BEGIN
-					Return 0;
+					SET @R=0;
+					RETURN;
 				END
 				SET @Counter = @Counter + 1;
 			End
@@ -146,7 +168,9 @@ As
 			BEGIN
 				UPDATE Boards SET JoinerShipsPlaced = JoinerShipsPlaced + 1 Where BoardID = @BoardID;
 			END
-			RETURN 1;
+			SET @R = 1;
+			SELECT @R;
+			RETURN;
 		END
 
 
@@ -157,7 +181,8 @@ As
 			BEGIN
 				IF EXISTS (SELECT CellID From Cells WHERE X = @StartY AND Y = (@StartY + @Counter) AND UserID = @UserID AND BoardID = @BoardID)
 				BEGIN
-					Return 0;
+					SET @R=0;
+					RETURN;
 				END
 				SET @Counter = @Counter + 1;
 			End
@@ -183,7 +208,9 @@ As
 			BEGIN
 				UPDATE Boards SET JoinerShipsPlaced = JoinerShipsPlaced + 1 Where BoardID = @BoardID;
 			END
-			RETURN 1;
+			SET @R = 1;
+			SELECT @R;
+			RETURN;
 		END
 		END
 
@@ -191,7 +218,7 @@ As
 
 
 
-		IF(@JoinerID = @UserID AND (Select JoinerShipsPlaced From Boards Where BoardID = @BoardID) < 4)
+		IF(@JoinerID = @UserID AND @JoinerShipsPlaced < 4)
 		BEGIN
 		IF (@Orientation = 1 AND @StartY < 10 AND @StartY > 0 AND @StartX > 0 AND (@StartX + @ShipLength) < 10)
 		BEGIN
@@ -200,7 +227,8 @@ As
 			BEGIN
 				IF EXISTS (SELECT CellID From Cells WHERE Y = @StartY AND X = (@StartX + @Counter) AND UserID = @UserID AND BoardID = @BoardID)
 				BEGIN
-					Return 0;
+					SET @R=0;
+					RETURN;
 				END
 				SET @Counter = @Counter + 1;
 			End
@@ -226,7 +254,9 @@ As
 			BEGIN
 				UPDATE Boards SET JoinerShipsPlaced = JoinerShipsPlaced + 1 Where BoardID = @BoardID;
 			END
-			RETURN 1;
+			SET @R = 1;
+			SELECT @R;
+			RETURN;
 		END
 
 
@@ -238,7 +268,8 @@ As
 			BEGIN
 				IF EXISTS (SELECT CellID From Cells WHERE Y = @StartY AND X = (@StartX - @Counter) AND UserID = @UserID AND BoardID = @BoardID)
 				BEGIN
-					Return 0;
+					SET @R=0;
+					RETURN;
 				END
 				SET @Counter = @Counter + 1;
 			End
@@ -264,7 +295,9 @@ As
 			BEGIN
 				UPDATE Boards SET JoinerShipsPlaced = JoinerShipsPlaced + 1 Where BoardID = @BoardID;
 			END
-			RETURN 1;
+			SET @R =1;
+			SELECT @R;
+			RETURN;
 		END
 
 
@@ -275,7 +308,8 @@ As
 			BEGIN
 				IF EXISTS (SELECT CellID From Cells WHERE X = @StartX AND Y = (@StartY - @Counter) AND UserID = @UserID AND BoardID = @BoardID)
 				BEGIN
-					Return 0;
+					SET @R=0;
+					RETURN;
 				END
 				SET @Counter = @Counter + 1;
 			End
@@ -301,7 +335,9 @@ As
 			BEGIN
 				UPDATE Boards SET JoinerShipsPlaced = JoinerShipsPlaced + 1 Where BoardID = @BoardID;
 			END
-			RETURN 1;
+			SET @R = 1;
+			SELECT @R;
+			RETURN;
 		END
 
 
@@ -312,7 +348,8 @@ As
 			BEGIN
 				IF EXISTS (SELECT CellID From Cells WHERE X = @StartY AND Y = (@StartY + @Counter) AND UserID = @UserID AND BoardID = @BoardID)
 				BEGIN
-					Return 0;
+					SET @R=0;
+					RETURN;
 				END
 				SET @Counter = @Counter + 1;
 			End
@@ -338,12 +375,16 @@ As
 			BEGIN
 				UPDATE Boards SET JoinerShipsPlaced = JoinerShipsPlaced + 1 Where BoardID = @BoardID;
 			END
-			RETURN 1;
+			SET @R = 1;
+			SELECT @R;
+			RETURN;
 		END
 		END
 		END
 	END
-	RETURN 0;
+	--SELECT @R;
+
+
 
 
 

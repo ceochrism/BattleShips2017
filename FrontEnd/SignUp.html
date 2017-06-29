@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <title>BattleShips SignUP</title>
+    <style>
+        .advancedSearchTextbox {
+            width: 300px;
+            margin-right: -4px;
+            padding: 0;
+            height: 30px;
+            position: relative;
+            left: 0;
+            outline: none;
+            border: 5px solid white;
+            border-color: rgba(0, 0, 0, .15);
+            background-color: black;
+            font-size: 20px;
+            color: blue;
+            border-radius: 15px;
+        }
+
+        .advancedSearchTextbox:hover {
+            background-color: white;
+        }
+
+        .advancedSearchTextbox:active {
+            background-color: lightblue;
+        }
+
+        .error {
+            color: red;
+            border-color: red;
+            border-width: 2px;
+            border-style:solid;
+        }
+        .succesful{
+            border-style:solid;
+            border-color:green;
+            color:green;
+            border-width:2px;
+        }
+    </style>
+    <script src="SignUp.js"></script>
+</head>
+
+<body>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <form>
+        <center id="usernameBox">
+            Username: <input type="text" data-label="usernameBox" oninput="typing()" class="validate advancedSearchTextbox"
+                id="usernameTextBox" width="200px" />
+        </center>
+        </p>
+        <p>
+            <center id="passwordBox">
+                Password: <input type="password" data-label="passwordBox" oninput="typing()" class="validate advancedSearchTextbox"
+                    id="passwordTextBox" width="200px" />
+            </center>
+        </p>
+        <p>
+            <center id="emailBox">
+                Email: <input type="email" data-label="emailBox" oninput="typing()" class="validate advancedSearchTextbox"
+                    id="emailTextBox" width="200px;">
+            </center>
+        </p>
+        <center>
+            <input type="button" onclick="signUp()" class="buttons1" id="signUpButton" value="Sign Up" width=50px/>
+        </center>
+        <center>
+            <p>
+                <a href="Login.html" style="text-decoration: none">Already Have an Account? Log In</a>
+            </p>
+            <p>
+                <input type="button" id="resultBox" style="background-color:white;border-color:white;border-style:solid;border-width:0px;">
+            </p>
+        </center>
+    </form>
+</body>
+
+</html>

@@ -1,5 +1,12 @@
 'use strict';
 
+window.onload = () => {
+    if(localStorage.UserName != undefined && localStorage.UserName != "")
+    {
+        window.location="Home.html";
+    }
+};
+
         var lists = document.getElementsByClassName("validate");
 
         function validateTextBox()
@@ -42,11 +49,13 @@
             request.onreadystatechange = () => {
                 if (request.readyState == 4 && request.status >= 200 && request.status < 300) {
                     let result = JSON.parse(request.responseText)
-                    if (result == null) {
+                    if (result.status == null) {
                         alert("Incorrect credentials have been entered.")
                     }
                     else {
-                        alert("You have successfully logged in.");
+                        localStorage.setItem("UserName", result.username)
+                        localStorage.setItem("SessionID", result.status)
+                        window.location = "Home.html"
                     }
                 }
             };
