@@ -1,0 +1,96 @@
+<html>
+
+<head>
+    <script src="..\\js\\ajax.js"></script>
+    <script src="..\\js\\Game.js"></script>
+    <style>
+        .ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .li {
+            float: left;
+        }
+
+        .li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        /* Change the link color to #111 (black) on hover */
+
+        .li a:hover {
+            background-color: #111;
+        }
+
+        .liRight {
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <ul class="ul">
+            <li class="li" style="padding:10px;">
+                <a href="../Home.html">Home</a>
+            </li>
+            <li class="li liRight" style="padding:20px;">
+                <input style="padding:5px;" type="button" onclick="LogOut()" id="logOutBtn" value="Log Out">
+            </li>
+        </ul>
+        <div>
+            <center>
+                <b>
+                <p id="statusP" style="font-size:20px;">
+                    Game Status:
+                </p>
+            </b>
+            </center>
+            <center>
+                <p>
+                    <pre style="font-size:20px; margin-right:15%;">
+                    Your Table:                                        Their Table:
+                </pre>
+                </p>
+            </center>
+            <center>
+                <p>
+                    <table style="margin-left:20%;display:inline-block;">
+                        <tbody id="YourTable">
+                        </tbody>
+                    </table>
+                    <table id="TheirTable" style="float:right;margin-right:30%">
+                    </table>
+                </p>
+            </center>
+            <p>
+                Select Ship Length: 
+                <input type="radio" name="length" id="ShipLength2" onclick="PickShipLength(2)" /> 2
+                <input type="radio" name="length" id="ShipLength3" onclick="PickShipLength(3)"/> 3
+                <input type="radio" name="length" id="ShipLength4" onclick="PickShipLength(4)"/> 4
+                <input type="radio" name="length" id="ShipLength5" onclick="PickShipLength(5)"/> 5
+            </p>
+            <p>
+                Select Oreintation: 
+                <input type="radio" name="orientation" id="Orientation1" onclick="PickOrientation(1)" /> 1 right
+                <input type="radio" name="orientation" id="Orientation2" onclick="PickOrientation(2)"/> 2 left
+                <input type="radio" name="orientation" id="Orientation3" onclick="PickOrientation(3)"/> 3 up
+                <input type="radio" name="orientation" id="Orientation4" onclick="PickOrientation(4)"/> 4 down
+            </p>
+            <p>
+                <input type="button" id="PlaceShipBtn" value="Place Ship" onclick="PlaceShip()">
+            </p>
+            <p id="result">
+            </p>
+        </div>
+    </form>
+</body>
+
+</html>

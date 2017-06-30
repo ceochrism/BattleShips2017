@@ -1,10 +1,12 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_PlaceShip]    Script Date: 6/29/2017 3:21:24 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_PlaceShip]    Script Date: 6/30/2017 3:07:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+
 
 
 
@@ -44,9 +46,14 @@ As
 
 	IF ((Select state From Accounts where Username = @Username)= @state)
 	Begin
-	
 	IF EXISTS(SELECT * FROM Ships Where @UserID = UserID AND ShipLength = @ShipLength AND BoardID = @BoardID)
 	BEGIN
+	
+			IF((SELECT StartX From Ships Where @UserID = UserID AND @BoardID = BoardID) IS NOT NULL)
+			BEGIN 
+				RETURN
+			END
+
 
 		IF(@HostID = @UserID AND @HostShipsPlaced < 4)
 		BEGIN
@@ -54,7 +61,6 @@ As
 		
 		IF (@Orientation = 1 AND @StartY < 10 AND @StartY > 0 AND @StartX > 0 AND (@StartX + @ShipLength) < 10)
 		BEGIN
-
 			DECLARE @Counter As int;
 			Set @Counter = 0;
 			WHILE (@Counter < @ShipLength)
@@ -383,6 +389,8 @@ As
 		END
 	END
 	--SELECT @R;
+
+
 
 
 

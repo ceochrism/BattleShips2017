@@ -1,10 +1,11 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_StartGame]    Script Date: 6/29/2017 3:21:24 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_StartGame]    Script Date: 6/30/2017 3:07:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -61,6 +62,7 @@ SET @R = 0;
 	End
 
 	SELECT @R;
+
 
 
 

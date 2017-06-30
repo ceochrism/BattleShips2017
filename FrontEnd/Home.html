@@ -1,22 +1,69 @@
 <html>
 
 <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
     <title>Battle Ships Home</title>
-    <script src="Home.js"></script>
-    <script src="ajax.js"></script>
+    <script src="js\\Home.js"></script>
+    <script src="js\\ajax.js"></script>
+    <style>
+        body {}
+    </style>
+    <style>
+        .ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .li {
+            float: left;
+        }
+
+        .li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        /* Change the link color to #111 (black) on hover */
+
+        .li a:hover {
+            background-color: #111;
+        }
+
+        .liRight {
+            float: right;
+        }
+    </style>
 </head>
 
 <body>
     <form>
-        <input style="margin-left:90%; margin-top:20px;" type="button" onclick="LogOut()" id="logOutBtn" value="Log Out">
+        <ul class="ul">
+            <li class="li" style="padding:10px;">
+                <a href="Home.html">Home</a>
+            </li>
+            <li class="li liRight" style="padding:20px;">
+                <input style="padding:5px;" type="button" onclick="LogOut()" id="logOutBtn" value="Log Out">
+            </li>
+        </ul>
         <p>
-            <center style="margin-top:30%;">
-                <input type="button" onclick="MyGames()" id="MyGamesBtn" value="My Games">
+            <center style="margin-top:17%;">
+                <input type="button" onclick="myGames()" id="MyGamesBtn" value="My Games">
             </center>
         </p>
         <p>
             <center>
-                <input type="button" onclick="StartGame()" id="StartGameBtn" value="Start New Game">
+                <input type="button" onclick="startGame()" id="StartGameBtn" value="Start New Game">
+            </center>
+        </p>
+        <p>
+            <center id="startingStatus" style="color:red;">
+                
             </center>
         </p>
     </form>

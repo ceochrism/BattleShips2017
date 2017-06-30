@@ -1,10 +1,12 @@
 USE [ChrisMansourianBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_GetGameStatus]    Script Date: 6/29/2017 3:21:24 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_GetGameStatus]    Script Date: 6/30/2017 3:07:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+
 
 
 
@@ -60,7 +62,7 @@ AS
 
 	IF((SELECT isGameFinished From #TempTable) = 0)
 	BEGIN
-		IF((SELECT HostShipsPlaced From #TempTable) != 4 AND (Select JoinerShipsPlaced From #TempTable) != 4)
+		IF((SELECT HostShipsPlaced From #TempTable) != 4 OR (Select JoinerShipsPlaced From #TempTable) != 4)
 		BEGIN
 			SET @R = 'Game is still in ship select phase... Please Wait...';
 		END
@@ -71,10 +73,10 @@ AS
 		end
 	END
 
-	if(@R != '0')
-	BEGIN
 		SELECT @R;
-	END
+
+
+
 
 
 

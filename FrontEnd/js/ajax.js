@@ -1,14 +1,14 @@
 'use strict';
 
 window.onload = () => {
-    if(localStorage.UserName === undefined || localStorage.UserName === "")
+    if(sessionStorage["UserName"] === undefined || sessionStorage["UserName"] === "" || sessionStorage["SessionID"]=== undefined || sessionStorage["SessionID"] === "")
     {
-        window.location="Login.html";
+        window.location="../LogIn.html";
     }
     else{
          var user = {
-                "username": localStorage.UserName,
-                "sessionID": localStorage.SessionID
+                "username": sessionStorage["UserName"],
+                "sessionID": sessionStorage["SessionID"]
             }
             var request = new XMLHttpRequest();
             request.open("Post", "http://localhost:58133//api/Login/CheckSession", true);
@@ -17,8 +17,9 @@ window.onload = () => {
                 if (request.readyState == 4 && request.status >= 200 && request.status < 300) {
                     let result = JSON.parse(request.responseText)
                     if (result == null) {
-                        localStorage.UserName = "";
-                        window.location = "logIn.html" 
+                        sessionStorage["UserName"] = "";
+                        sessionStorage["SessionID"] = "";
+                        window.location.href = "../LogIn.html" 
                     }
                     else {
                         return;

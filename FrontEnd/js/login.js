@@ -1,7 +1,7 @@
 'use strict';
 
 window.onload = () => {
-    if(localStorage.UserName != undefined && localStorage.UserName != "")
+    if(sessionStorage["UserName"] != undefined && sessionStorage["UserName"] != "")
     {
         window.location="Home.html";
     }
@@ -53,8 +53,8 @@ window.onload = () => {
                         alert("Incorrect credentials have been entered.")
                     }
                     else {
-                        localStorage.setItem("UserName", result.username)
-                        localStorage.setItem("SessionID", result.status)
+                        sessionStorage["UserName"] = result.username;
+                        sessionStorage["SessionID"] = result.status;
                         window.location = "Home.html"
                     }
                 }

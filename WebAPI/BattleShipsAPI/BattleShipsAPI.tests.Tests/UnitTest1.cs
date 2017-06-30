@@ -20,7 +20,7 @@ namespace BattleShipsAPI.Tests
             HttpClient client = new HttpClient();
             LoginCredentials credentials = new LoginCredentials
             {
-                Username = "test4",
+                Username = "test",
                 Password = "test"
             };
             var result = await client.PostAsJsonAsync($"http://localhost:58133/api/Login/Login", credentials);

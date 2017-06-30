@@ -144,6 +144,7 @@
     <Compile Include="Models\CheckSessionCred.cs" />
     <Compile Include="Models\GetGameIDs.cs" />
     <Compile Include="Models\GetGameStatusCred.cs" />
+    <Compile Include="Models\getShipsCred.cs" />
     <Compile Include="Models\LoginCredentials.cs" />
     <Compile Include="Models\MoveCredentials.cs" />
     <Compile Include="Models\PlaceShipsCredentials.cs" />

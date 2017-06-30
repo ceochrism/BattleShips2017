@@ -121,7 +121,7 @@ namespace BattleShipsAPI.Controllers
 
                 conn.Close();
 
-                if (int.Parse(table.Rows[0][0].ToString()) == 1)
+                if (table.Rows.Count>0 && int.Parse(table.Rows[0][0].ToString()) == 1)
                 {
                     return "Ship Succesfully Placed";
                 }
@@ -156,7 +156,7 @@ namespace BattleShipsAPI.Controllers
 
                 conn.Close();
                 DataColumnCollection columns = table.Columns;
-                if (!columns.Contains("Result") && table.Rows.Count > 0)
+                if (!columns.Contains("Result") && table.Rows[0][0].ToString() != "0")
                 {
                     string[] t = new string[1] { table.Rows[0][0].ToString() };
                     return t;
@@ -212,6 +212,47 @@ namespace BattleShipsAPI.Controllers
                 else
                 {
                     return table.Rows[0][0].ToString();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="credentials"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("getShips")]
+        public int[] getShips([FromBody] getShipsCred credentials)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+
+            using (SqlCommand command = new SqlCommand("usp_getShips", conn))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@GameID", credentials.GameID);
+                command.Parameters.AddWithValue("@UserName", credentials.UserName);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable table = new DataTable();
+
+                conn.Open();
+
+                adapter.Fill(table);
+
+                conn.Close();
+
+                if (table.Rows.Count ==0)
+                {
+                    return null;
+                }
+                else
+                {
+                    int[] t = new int[table.Rows.Count];
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        t[i] = (int.Parse(table.Rows[i]["Y"].ToString())-1)*9 + int.Parse(table.Rows[i]["X"].ToString());
+                    }
+                    return t;
                 }
             }
         }
